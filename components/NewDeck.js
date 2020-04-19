@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  Alert,
   Keyboard,
   StyleSheet,
   Text,
@@ -8,8 +7,11 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 
-export default class NewDeck extends Component {
+import { addDeck } from '../actions';
+
+class NewDeck extends Component {
   state = {
     input: '',
   };
@@ -21,8 +23,9 @@ export default class NewDeck extends Component {
   };
 
   handleOnPress = () => {
-    Alert.alert('Button pressed');
     Keyboard.dismiss();
+
+    this.props.dispatch(addDeck(this.state.input));
 
     this.setState(() => ({
       input: '',
@@ -70,3 +73,5 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+export default connect()(NewDeck);

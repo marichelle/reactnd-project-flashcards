@@ -8,18 +8,22 @@ want to create four different helper methods:
 `addCardToDeck`: take in two arguments, title and card, and will add the card to the list of questions for the deck with the associated title.
 */
 
-import decks from './_DATA';
+import { AsyncStorage } from 'react-native';
 
-export const CALENDAR_STORAGE_KEY = 'UdaciCards:decks';
+import { _getDecks } from './_DATA';
+
+export const DECKS_STORAGE_KEY = 'UdaciCards:decks';
+
+export function getInitialData() {
+  return _getDecks().then((decks) => ({ decks }));
+}
 
 export function addCardToDeck(title, card) {}
 
-export function getDeck(id) {
-  return decks[id];
-}
+export function getDeck(id) {}
 
 export function getDecks() {
-  return decks;
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY);
 }
 
 export function saveDeckTitle(title) {}
