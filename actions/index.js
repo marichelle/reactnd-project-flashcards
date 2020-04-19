@@ -23,7 +23,7 @@ export function addDeck(title) {
 export function handleInitialData() {
   // redux thunk pattern
   return (dispatch) => {
-    return getDecks().then(({ decks }) => {
+    return getDecks().then((decks) => {
       dispatch(receiveDecks(decks));
     });
   };
