@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   Keyboard,
   StyleSheet,
   Text,
@@ -23,13 +24,18 @@ class NewDeck extends Component {
   };
 
   handleOnPress = () => {
+    const { input } = this.state;
+
     Keyboard.dismiss();
 
-    this.props.dispatch(addDeck(this.state.input));
-
-    this.setState(() => ({
-      input: '',
-    }));
+    if (input.length) {
+      this.props.dispatch(addDeck(input));
+      this.setState(() => ({
+        input: '',
+      }));
+    } else {
+      Alert.alert('Enter a title');
+    }
   };
 
   render() {
@@ -46,7 +52,7 @@ class NewDeck extends Component {
           value={input}
         />
         <TouchableHighlight style={styles.button} onPress={this.handleOnPress}>
-          <Text>Submit</Text>
+          <Text style={styles.buttonText}>Submit</Text>
         </TouchableHighlight>
       </View>
     );
@@ -68,9 +74,15 @@ const styles = StyleSheet.create({
     height: 40,
   },
   button: {
+    backgroundColor: 'black',
     borderColor: 'black',
     borderWidth: 1,
     padding: 10,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
   },
 });
 

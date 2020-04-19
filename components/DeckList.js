@@ -7,7 +7,7 @@ class DeckList extends Component {
     const { questions, title } = deck;
 
     return (
-      <View style={[styles.item]}>
+      <View key={title} style={[styles.item]}>
         <Text style={styles.itemTitle}>{title}</Text>
         <Text style={styles.itemCards}>{questions.length} cards</Text>
       </View>
@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     height: 220,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
     marginLeft: 20,
     marginRight: 20,
   },

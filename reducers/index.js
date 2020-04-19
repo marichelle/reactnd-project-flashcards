@@ -3,14 +3,24 @@ import { ADD_CARD, ADD_DECK, REMOVE_DECK, RECEIVE_DECKS } from '../actions';
 export default function decks(state = {}, action) {
   switch (action.type) {
     case ADD_CARD:
-      return state;
+      const { id, card } = action;
 
-    case ADD_DECK:
       return {
         ...state,
-        [action.title]: {
+        [id]: {
+          ...[id],
+          questions: state[id].questions.concat([card]),
+        },
+      };
+
+    case ADD_DECK:
+      const { title } = action;
+
+      return {
+        ...state,
+        [title]: {
           questions: [],
-          title: action.title,
+          title: title,
         },
       };
 
@@ -21,7 +31,10 @@ export default function decks(state = {}, action) {
       };
 
     case REMOVE_DECK:
-      return state;
+      // https://stackoverflow.com/questions/34401098/remove-a-property-in-an-object-immutably
+      const { [action.id]: value, ...remaining } = state;
+
+      return remaining;
 
     default:
       return state;
