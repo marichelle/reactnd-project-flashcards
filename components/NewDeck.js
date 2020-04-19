@@ -24,12 +24,13 @@ class NewDeck extends Component {
   };
 
   handleOnPress = () => {
+    const { dispatch } = this.props;
     const { input } = this.state;
 
     Keyboard.dismiss();
 
     if (input.length) {
-      this.props.dispatch(addDeck(input));
+      dispatch(addDeck(input));
       this.setState(() => ({
         input: '',
       }));
@@ -42,7 +43,7 @@ class NewDeck extends Component {
     const { input } = this.state;
 
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.container}>
         <Text style={styles.label}>What is the title of your new deck?</Text>
         <TextInput
           style={styles.input}
@@ -60,6 +61,11 @@ class NewDeck extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   label: {
     fontSize: 46,
     textAlign: 'center',

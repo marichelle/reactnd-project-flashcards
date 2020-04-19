@@ -8,7 +8,7 @@ export default function decks(state = {}, action) {
       return {
         ...state,
         [id]: {
-          ...[id],
+          ...state[id],
           questions: state[id].questions.concat([card]),
         },
       };
