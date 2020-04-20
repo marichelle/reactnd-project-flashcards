@@ -1,39 +1,42 @@
 import React, { Component } from 'react';
 import {
   Alert,
-  Keyboard,
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { addDeck } from '../actions';
+import { handleSaveDeck } from '../actions';
 
 class NewDeck extends Component {
   state = {
-    input: '',
+    title: '',
   };
 
   handleChangeText = (text) => {
     this.setState(() => ({
-      input: text,
+      title: text,
     }));
   };
 
   handleOnPress = () => {
-    const { dispatch } = this.props;
-    const { input } = this.state;
+    const { dispatch, navigation } = this.props;
+    const { title } = this.state;
 
-    Keyboard.dismiss();
+    if (title.length) {
+      // dispatch action to update AsyncStorage and Redux
+      dispatch(handleSaveDeck(title));
 
-    if (input.length) {
-      dispatch(addDeck(input));
+      // clear local state
       this.setState(() => ({
-        input: '',
+        title: '',
       }));
+
+      // return to Decks view
+      navigation.navigate('Decks');
     } else {
       Alert.alert('Enter a title');
     }
@@ -52,9 +55,9 @@ class NewDeck extends Component {
           placeholder={'Deck Title'}
           value={input}
         />
-        <TouchableHighlight style={styles.button} onPress={this.handleOnPress}>
+        <TouchableOpacity style={styles.button} onPress={this.handleOnPress}>
           <Text style={styles.buttonText}>Submit</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

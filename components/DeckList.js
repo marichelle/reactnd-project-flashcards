@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { connect } from 'react-redux';
 
 class DeckList extends Component {
   renderItem = (deck) => {
+    const { navigation } = this.props;
     const { questions, title } = deck;
 
     return (
-      <View key={title} style={[styles.item]}>
+      <TouchableOpacity
+        style={styles.item}
+        key={title}
+        onPress={() => navigation.navigate('Deck', { id: title })}
+      >
         <Text style={styles.itemTitle}>{title}</Text>
         <Text style={styles.itemCards}>{questions.length} cards</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -25,10 +36,6 @@ class DeckList extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { decks: state };
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -39,8 +46,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     height: 220,
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -51,5 +57,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+
+function mapStateToProps(state) {
+  return { decks: state };
+}
 
 export default connect(mapStateToProps)(DeckList);
