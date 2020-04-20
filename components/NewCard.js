@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import {
   Alert,
-  Keyboard,
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { addCard } from '../actions';
+import { handleAddCardToDeck } from '../actions';
 
 class NewCard extends Component {
   state = {
@@ -25,23 +24,26 @@ class NewCard extends Component {
   };
 
   handleOnPress = () => {
-    const { dispatch, id } = this.props;
+    const { dispatch, id, navigation } = this.props;
     const { question, answer } = this.state;
 
-    Keyboard.dismiss();
-
     if (question.length && answer.length) {
+      // dispatch action to update AsyncStorage and Redux
       dispatch(
-        addCard(id, {
+        handleAddCardToDeck(id, {
           question,
           answer,
         })
       );
 
+      // clear local state
       this.setState(() => ({
         question: '',
         answer: '',
       }));
+
+      // return to Deck view
+      navigation.navigate('Deck', { id });
     } else {
       Alert.alert('Enter a question and answer');
     }
@@ -69,9 +71,9 @@ class NewCard extends Component {
           placeholder={'Enter Answer'}
           value={answer}
         />
-        <TouchableHighlight style={styles.button} onPress={this.handleOnPress}>
+        <TouchableOpacity style={styles.button} onPress={this.handleOnPress}>
           <Text style={styles.buttonText}>Submit</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -114,4 +116,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect()(NewCard);
+function mapStateToProps({}, props) {
+  const {
+    route: {
+      params: { id },
+    },
+  } = props;
+
+  return {
+    id,
+  };
+}
+
+export default connect(mapStateToProps)(NewCard);

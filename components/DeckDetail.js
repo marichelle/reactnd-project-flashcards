@@ -1,20 +1,35 @@
 import React, { Component } from 'react';
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import { handleDeleteDeck } from '../actions';
+import { black, lightCoral, white } from '../utils/palette';
+
 class DeckDetail extends Component {
+  handleDeleteDeck = () => {
+    const { dispatch, id, navigation } = this.props;
+
+    // dispatch action to update AsyncStorage and Redux
+    dispatch(handleDeleteDeck(id));
+
+    // return to Deck view
+    navigation.navigate('Decks');
+  };
+
   handleOnPress = () => {
     Alert.alert('button pressed');
   };
 
   render() {
-    const { id, deck } = this.props;
+    const { id, deck, navigation } = this.props;
+
+    if (deck === undefined) {
+      return (
+        <View>
+          <Text>This deck no longer exists.</Text>
+        </View>
+      );
+    }
 
     return (
       <View style={styles.container}>
@@ -23,26 +38,26 @@ class DeckDetail extends Component {
           <Text style={styles.cardInfo}>{deck.questions.length} cards</Text>
         </View>
         <View style={styles.buttons}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.button}
-            onPress={this.handleOnPress}
+            onPress={() => navigation.navigate('New Card', { id })}
           >
             <Text style={styles.buttonText}>Add Card</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.button, { backgroundColor: 'black' }]}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: black }]}
             onPress={this.handleOnPress}
           >
-            <Text style={[styles.buttonText, { color: 'white' }]}>
+            <Text style={[styles.buttonText, { color: white }]}>
               Start Quiz
             </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
+          </TouchableOpacity>
+          <TouchableOpacity
             style={{ margin: 10 }}
-            onPress={this.handleOnPress}
+            onPress={this.handleDeleteDeck}
           >
-            <Text style={{ color: 'red' }}>Delete Deck</Text>
-          </TouchableHighlight>
+            <Text style={{ color: lightCoral }}>Delete Deck</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -54,8 +69,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    borderColor: 'red',
-    borderWidth: 1,
   },
   deckInfo: {
     justifyContent: 'center',
@@ -87,8 +100,15 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(decks, props) {
+  const {
+    route: {
+      params: { id },
+    },
+  } = props;
+
   return {
-    deck: decks[props.id],
+    id,
+    deck: decks[id],
   };
 }
 
