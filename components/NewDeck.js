@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux';
 
 import { handleSaveDeck } from '../actions';
+import { borderRadius, primary, tertiary, muted } from '../utils/theme';
 
 class NewDeck extends Component {
   state = {
@@ -36,7 +37,7 @@ class NewDeck extends Component {
       }));
 
       // return to Decks view
-      navigation.navigate('Decks');
+      navigation.navigate('New Card', { id: title });
     } else {
       Alert.alert('Enter a title');
     }
@@ -74,24 +75,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   input: {
-    borderColor: 'gray',
-    borderRadius: 4,
+    borderColor: primary,
+    borderRadius: borderRadius,
     borderWidth: 1,
     margin: 40,
     padding: 10,
     width: 340,
     height: 40,
+    textAlign: 'center',
   },
   button: {
-    backgroundColor: 'black',
-    borderColor: 'black',
+    backgroundColor: primary,
+    borderColor: primary,
+    borderRadius: borderRadius,
     borderWidth: 1,
     padding: 10,
   },
   buttonText: {
+    color: tertiary,
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'white',
   },
 });
 

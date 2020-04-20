@@ -10,6 +10,13 @@ import {
 import { connect } from 'react-redux';
 
 import { handleAddCardToDeck } from '../actions';
+import {
+  primary,
+  tertiary,
+  borderRadius,
+  buttonFontSize,
+  buttonFontWeight,
+} from '../utils/theme';
 
 class NewCard extends Component {
   state = {
@@ -50,11 +57,12 @@ class NewCard extends Component {
   };
 
   render() {
+    const { id } = this.props;
     const { question, answer } = this.state;
 
     return (
       <View style={styles.container}>
-        <Text style={{ fontSize: 36 }}>Add Card</Text>
+        <Text style={styles.title}>Add Card to {id} Deck</Text>
         <CustomTextInput
           style={styles.input}
           maxLength={100}
@@ -94,25 +102,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  title: {
+    fontSize: 46,
+    textAlign: 'center',
+  },
   input: {
-    borderColor: 'gray',
+    borderColor: primary,
     borderRadius: 4,
     borderWidth: 1,
     margin: 10,
     padding: 10,
     width: 340,
     height: 40,
+    textAlign: 'center',
   },
   button: {
-    backgroundColor: 'black',
-    borderColor: 'black',
+    backgroundColor: primary,
+    borderColor: primary,
+    borderRadius: borderRadius,
     borderWidth: 1,
     padding: 10,
   },
   buttonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
+    fontSize: buttonFontSize,
+    fontWeight: buttonFontWeight,
+    color: tertiary,
   },
 });
 

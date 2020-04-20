@@ -3,7 +3,14 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import { handleDeleteDeck } from '../actions';
-import { black, lightCoral, white } from '../utils/palette';
+import {
+  primary,
+  secondary,
+  tertiary,
+  borderRadius,
+  buttonFontSize,
+  buttonFontWeight,
+} from '../utils/theme';
 
 class DeckDetail extends Component {
   handleDeleteDeck = () => {
@@ -45,10 +52,10 @@ class DeckDetail extends Component {
             <Text style={styles.buttonText}>Add Card</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: black }]}
+            style={[styles.button, { backgroundColor: primary }]}
             onPress={this.handleOnPress}
           >
-            <Text style={[styles.buttonText, { color: white }]}>
+            <Text style={[styles.buttonText, { color: tertiary }]}>
               Start Quiz
             </Text>
           </TouchableOpacity>
@@ -56,7 +63,7 @@ class DeckDetail extends Component {
             style={{ margin: 10 }}
             onPress={this.handleDeleteDeck}
           >
-            <Text style={{ color: lightCoral }}>Delete Deck</Text>
+            <Text style={{ color: secondary }}>Delete Deck</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -83,7 +90,8 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    borderColor: 'gray',
+    borderColor: primary,
+    borderRadius: borderRadius,
     borderWidth: 1,
     margin: 10,
     padding: 10,
@@ -94,8 +102,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: buttonFontSize,
+    fontWeight: buttonFontWeight,
   },
 });
 

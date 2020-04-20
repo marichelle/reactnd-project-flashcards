@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import { black } from '../utils/palette';
+import { borderRadius, primary, tertiary } from '../utils/theme';
 
 class DeckList extends Component {
   renderItem = (deck) => {
@@ -39,23 +39,36 @@ const styles = StyleSheet.create({
   item: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: black,
+    backgroundColor: primary,
+    borderColor: tertiary,
+    borderRadius: borderRadius,
     borderWidth: 1,
-    height: 215,
+    height: 140,
     marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
   },
   itemTitle: {
-    fontSize: 36,
+    color: tertiary,
+    fontSize: 26,
   },
   itemCards: {
-    fontSize: 20,
+    color: tertiary,
+    fontSize: 16,
   },
 });
 
-function mapStateToProps(state) {
-  return { decks: state };
+function mapStateToProps(decks) {
+  const sorted_decks = {};
+
+  // sort decks alphabetically
+  Object.entries(decks)
+    .sort((a, b) => a > b)
+    .forEach(([key, val]) => {
+      sorted_decks[key] = val;
+    });
+
+  return { decks: sorted_decks };
 }
 
 export default connect(mapStateToProps)(DeckList);

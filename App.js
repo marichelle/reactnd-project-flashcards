@@ -10,7 +10,7 @@ import thunk from 'redux-thunk';
 import AppNav from './components/AppNav';
 import { handleGetDecks } from './actions';
 import reducer from './reducers';
-import { fernGreen } from './utils/palette';
+import { primary } from './utils/theme';
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
 
@@ -25,12 +25,12 @@ export default class App extends Component {
         <View style={styles.container}>
           <View
             style={{
-              backgroundColor: fernGreen,
+              backgroundColor: primary,
               height: Constants.statusBarHeight,
             }}
           >
             <StatusBar
-              backgroundColor={fernGreen}
+              backgroundColor={primary}
               barStyle={'light-content'}
               translucent
             />
