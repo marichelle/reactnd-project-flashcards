@@ -1,11 +1,134 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { connect } from 'react-redux';
 
-export default class Quiz extends Component {
+import {
+  primary,
+  secondary,
+  tertiary,
+  success,
+  danger,
+  link,
+  white,
+  borderRadius,
+  buttonFontSize,
+  buttonFontWeight,
+} from '../utils/theme';
+
+class Quiz extends Component {
+  state = {
+    index: 0,
+    score: 0,
+    view: 'question',
+  };
+
+  handleAnswer = (correct, numOfCards) => {
+    this.setState((currState) => {
+      const next = currState.index + 1;
+
+      return {
+        index: next,
+        score: correct ? currState.score + 1 : currState.score,
+        view: next === numOfCards ? 'results' : 'question',
+      };
+    });
+  };
+
+  handleChangeView = () =>
+    this.setState((currState) => ({
+      view: currState.view === 'question' ? 'answer' : 'question',
+    }));
+
+  restartQuiz = () =>
+    this.setState(() => ({
+      index: 0,
+      score: 0,
+      view: 'question',
+    }));
+
   render() {
+    const { deck } = this.props;
+    const { questions } = deck;
+    const { index, score, view } = this.state;
+    const numOfCards = questions.length;
+    let result = 0;
+
+    if (view === 'results') {
+      result = Math.round((score / numOfCards) * 100);
+    }
+
     return (
       <View style={styles.container}>
-        <Text> textInComponent </Text>
+        {view === 'question' && (
+          <View style={styles.view}>
+            <Text>
+              {index + 1} of {numOfCards}
+            </Text>
+            <Text style={[styles.label, { fontSize: 42 }]}>
+              {questions[index].question}
+            </Text>
+            <TouchableOpacity
+              style={{ margin: 10 }}
+              onPress={this.handleChangeView}
+            >
+              <Text style={styles.link}>View Answer</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {view === 'answer' && (
+          <>
+            <View style={styles.view}>
+              <Text>
+                {index + 1} of {numOfCards}
+              </Text>
+              <Text style={[styles.label, { fontSize: 32 }]}>
+                {questions[index].answer}
+              </Text>
+              <TouchableOpacity
+                style={{ margin: 10 }}
+                onPress={this.handleChangeView}
+              >
+                <Text style={styles.link}>View Question</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: success }]}
+                onPress={() => this.handleAnswer(true, numOfCards)}
+              >
+                <Text style={[styles.buttonText, { color: white }]}>
+                  Correct
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: danger }]}
+                onPress={() => this.handleAnswer(false, numOfCards)}
+              >
+                <Text style={[styles.buttonText, { color: white }]}>
+                  Incorrect
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
+
+        {view === 'results' && (
+          <View style={styles.view}>
+            <Text style={[styles.label, { fontSize: 32 }]}>Quiz Results</Text>
+            <Text
+              style={[
+                styles.score,
+                result === 100 ? { color: success } : { color: danger },
+              ]}
+            >
+              {result}%
+            </Text>
+            <TouchableOpacity style={{ margin: 10 }} onPress={this.restartQuiz}>
+              <Text style={styles.link}>Restart Quiz</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     );
   }
@@ -14,7 +137,52 @@ export default class Quiz extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: 32,
+  },
+  view: {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  label: {
+    color: primary,
+    textAlign: 'center',
+    margin: 10,
+  },
+  link: {
+    color: link,
+    fontSize: buttonFontSize,
+    fontWeight: buttonFontWeight,
+  },
+  button: {
+    borderRadius: borderRadius,
+    margin: 10,
+    padding: 10,
+    width: 160,
+  },
+  buttonText: {
+    color: tertiary,
+    fontSize: buttonFontSize,
+    fontWeight: buttonFontWeight,
+    textAlign: 'center',
+  },
+  score: {
+    fontSize: 60,
+  },
 });
+
+function mapStateToProps(state, props) {
+  const {
+    route: {
+      params: { id },
+    },
+  } = props;
+
+  return {
+    id,
+    deck: state[id],
+  };
+}
+
+export default connect(mapStateToProps)(Quiz);

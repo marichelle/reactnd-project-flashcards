@@ -10,7 +10,14 @@ import {
 import { connect } from 'react-redux';
 
 import { handleSaveDeck } from '../actions';
-import { borderRadius, primary, tertiary, muted } from '../utils/theme';
+import {
+  borderRadius,
+  primary,
+  tertiary,
+  muted,
+  buttonFontSize,
+  buttonFontWeight,
+} from '../utils/theme';
 
 class NewDeck extends Component {
   state = {
@@ -37,14 +44,14 @@ class NewDeck extends Component {
       }));
 
       // return to Decks view
-      navigation.navigate('New Card', { id: title });
+      navigation.navigate('Deck', { id: title });
     } else {
       Alert.alert('Enter a title');
     }
   };
 
   render() {
-    const { input } = this.state;
+    const { title } = this.state;
 
     return (
       <View style={styles.container}>
@@ -54,7 +61,7 @@ class NewDeck extends Component {
           maxLength={40}
           onChangeText={(text) => this.handleChangeText(text)}
           placeholder={'Deck Title'}
-          value={input}
+          value={title}
         />
         <TouchableOpacity style={styles.button} onPress={this.handleOnPress}>
           <Text style={styles.buttonText}>Submit</Text>
@@ -94,8 +101,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: tertiary,
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: buttonFontSize,
+    fontWeight: buttonFontWeight,
   },
 });
 

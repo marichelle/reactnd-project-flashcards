@@ -7,6 +7,7 @@ import DeckDetail from './DeckDetail';
 import DeckList from './DeckList';
 import NewCard from './NewCard';
 import NewDeck from './NewDeck';
+import Quiz from './Quiz';
 import { primary, tertiary } from '../utils/theme';
 
 const StackNav = createStackNavigator();
@@ -34,6 +35,7 @@ const DecksTab = () => (
       component={NewCard}
       options={headerOptions}
     />
+    <StackNav.Screen name="Quiz" component={Quiz} options={headerOptions} />
   </StackNav.Navigator>
 );
 

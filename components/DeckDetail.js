@@ -29,6 +29,7 @@ class DeckDetail extends Component {
 
   render() {
     const { id, deck, navigation } = this.props;
+    const numOfCards = deck !== undefined ? deck.questions.length : 0;
 
     if (deck === undefined) {
       return (
@@ -42,7 +43,9 @@ class DeckDetail extends Component {
       <View style={styles.container}>
         <View style={styles.deckInfo}>
           <Text style={styles.cardTitle}>{deck.title}</Text>
-          <Text style={styles.cardInfo}>{deck.questions.length} cards</Text>
+          <Text style={styles.cardInfo}>
+            {numOfCards + (numOfCards !== 1 ? ' cards' : ' card')}
+          </Text>
         </View>
         <View style={styles.buttons}>
           <TouchableOpacity
@@ -55,7 +58,8 @@ class DeckDetail extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, { backgroundColor: primary }]}
-            onPress={this.handleOnPress}
+            disabled={numOfCards === 0}
+            onPress={() => navigation.navigate('Quiz', { id })}
           >
             <Text style={[styles.buttonText, { color: tertiary }]}>
               Start Quiz
