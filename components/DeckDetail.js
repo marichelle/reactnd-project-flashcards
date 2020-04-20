@@ -49,7 +49,9 @@ class DeckDetail extends Component {
             style={styles.button}
             onPress={() => navigation.navigate('New Card', { id })}
           >
-            <Text style={styles.buttonText}>Add Card</Text>
+            <Text style={[styles.buttonText, , { color: primary }]}>
+              Add Card
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, { backgroundColor: primary }]}
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardTitle: {
+    color: primary,
     fontSize: 50,
   },
   cardInfo: {

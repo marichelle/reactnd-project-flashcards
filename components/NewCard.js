@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
+    color: primary,
     fontSize: 46,
     textAlign: 'center',
   },

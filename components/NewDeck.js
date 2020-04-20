@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   label: {
+    color: primary,
     fontSize: 46,
     textAlign: 'center',
   },
