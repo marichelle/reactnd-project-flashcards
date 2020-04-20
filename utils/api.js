@@ -12,13 +12,13 @@ import { AsyncStorage } from 'react-native';
 
 import { decks } from './_DATA';
 
-export const DECKS_STORAGE_KEY = 'UdaciCards:decks';
+export const STORAGE_KEY = 'UdaciCards:decks';
 
 export async function addCardToDeck(id, card) {
   const deck = await getDeck(id);
 
   AsyncStorage.mergeItem(
-    DECKS_STORAGE_KEY,
+    STORAGE_KEY,
     JSON.stringify({
       [id]: {
         questions: [...deck.questions].concat(card),
@@ -28,26 +28,26 @@ export async function addCardToDeck(id, card) {
 }
 
 export async function deleteDeck(id) {
-  const currData = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+  const currData = await AsyncStorage.getItem(STORAGE_KEY);
   const newData = JSON.parse(currData);
 
   newData[id] = undefined;
   delete newData[id];
 
-  AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(newData));
+  AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(newData));
 }
 
 export async function getDeck(id) {
-  const results = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+  const results = await AsyncStorage.getItem(STORAGE_KEY);
 
   return JSON.parse(results)[id];
 }
 
 export async function getDecks() {
-  const results = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+  const results = await AsyncStorage.getItem(STORAGE_KEY);
 
   if (results === null) {
-    AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(decks));
 
     return decks;
   }
@@ -57,7 +57,7 @@ export async function getDecks() {
 
 export function saveDeckTitle(title) {
   AsyncStorage.mergeItem(
-    DECKS_STORAGE_KEY,
+    STORAGE_KEY,
     JSON.stringify({
       [title]: {
         title,
