@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+
+import { black } from '../utils/palette';
 
 class DeckList extends Component {
   renderItem = (deck) => {
@@ -43,9 +39,9 @@ const styles = StyleSheet.create({
   item: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'black',
+    borderColor: black,
     borderWidth: 1,
-    height: 220,
+    height: 215,
     marginTop: 20,
     marginLeft: 20,
     marginRight: 20,

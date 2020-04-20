@@ -3,6 +3,7 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import { handleDeleteDeck } from '../actions';
+import { black, lightCoral, white } from '../utils/palette';
 
 class DeckDetail extends Component {
   handleDeleteDeck = () => {
@@ -44,10 +45,10 @@ class DeckDetail extends Component {
             <Text style={styles.buttonText}>Add Card</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: 'black' }]}
+            style={[styles.button, { backgroundColor: black }]}
             onPress={this.handleOnPress}
           >
-            <Text style={[styles.buttonText, { color: 'white' }]}>
+            <Text style={[styles.buttonText, { color: white }]}>
               Start Quiz
             </Text>
           </TouchableOpacity>
@@ -55,7 +56,7 @@ class DeckDetail extends Component {
             style={{ margin: 10 }}
             onPress={this.handleDeleteDeck}
           >
-            <Text style={{ color: 'red' }}>Delete Deck</Text>
+            <Text style={{ color: lightCoral }}>Delete Deck</Text>
           </TouchableOpacity>
         </View>
       </View>
