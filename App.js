@@ -6,14 +6,14 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import AppNav from './components/AppNav';
-import { handleInitialData } from './actions';
+import { handleGetDecks } from './actions';
 import reducer from './reducers';
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
 
 export default class App extends Component {
   componentDidMount() {
-    store.dispatch(handleInitialData());
+    store.dispatch(handleGetDecks());
   }
 
   render() {
