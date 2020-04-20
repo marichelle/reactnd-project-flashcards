@@ -55,7 +55,11 @@ export async function getDecks() {
   return JSON.parse(results);
 }
 
-export function saveDeckTitle(title) {
+export async function resetDecks() {
+  AsyncStorage.removeItem(STORAGE_KEY);
+}
+
+export async function saveDeckTitle(title) {
   AsyncStorage.mergeItem(
     STORAGE_KEY,
     JSON.stringify({

@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { connect } from 'react-redux';
 
-import { addCard, addDeck, receiveDecks, removeDeck } from '../actions';
 import {
-  addCardToDeck,
-  deleteDeck,
-  getDeck,
-  getDecks,
-  saveDeckTitle,
-} from '../utils/api.js';
+  handleAddCardToDeck,
+  handleDeleteDeck,
+  handleGetDecks,
+  handleResetDecks,
+  handleSaveDeck,
+} from '../actions';
+import { getDeck } from '../utils/api.js';
 
 class APITestHarness extends Component {
   state = {
@@ -17,27 +23,21 @@ class APITestHarness extends Component {
   };
 
   componentDidMount() {
-    this.handleGetDecks();
+    const { dispatch } = this.props;
+
+    dispatch(handleGetDecks());
   }
 
-  handleDeleteDeck = () => {
-    const { dispatch } = this.props;
-    const mockData = 'New Deck';
-
-    dispatch(removeDeck(mockData));
-    deleteDeck(mockData);
-  };
+  clearState = () =>
+    this.setState(() => ({
+      output: '',
+    }));
 
   handleGetDecks = () => {
     const { dispatch } = this.props;
 
-    getDecks().then((result) => {
-      dispatch(receiveDecks(result));
-
-      this.setState(() => ({
-        output: result,
-      }));
-    });
+    this.clearState();
+    dispatch(handleGetDecks());
   };
 
   handleGetDeck = () => {
@@ -50,22 +50,37 @@ class APITestHarness extends Component {
 
   handleSaveDeck = () => {
     const { dispatch } = this.props;
-    const mockData = 'New Deck';
+    const title = 'New Deck';
 
-    dispatch(addDeck(mockData));
-    saveDeckTitle(mockData);
+    this.clearState();
+    dispatch(handleSaveDeck(title));
+  };
+
+  handleDeleteDeck = () => {
+    const { dispatch } = this.props;
+    const title = 'New Deck';
+
+    this.clearState();
+    dispatch(handleDeleteDeck(title));
   };
 
   handleAddCard = () => {
     const { dispatch } = this.props;
-    const mockId = 'React';
-    const mockData = {
+    const id = 'React';
+    const card = {
       question: 'Why do birds suddenly appear?',
       answer: 'They long to be close to you',
     };
 
-    dispatch(addCard(mockId, mockData));
-    addCardToDeck(mockId, mockData);
+    this.clearState();
+    dispatch(handleAddCardToDeck(id, card));
+  };
+
+  handleResetDecks = () => {
+    const { dispatch } = this.props;
+
+    this.clearState();
+    dispatch(handleResetDecks());
   };
 
   render() {
@@ -73,7 +88,7 @@ class APITestHarness extends Component {
     const { output } = this.state;
 
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.buttons}>
           <TouchableOpacity style={styles.button} onPress={this.handleGetDecks}>
             <Text style={styles.buttonText}>getDecks()</Text>
@@ -93,12 +108,22 @@ class APITestHarness extends Component {
           <TouchableOpacity style={styles.button} onPress={this.handleAddCard}>
             <Text style={styles.buttonText}>addCardToDeck()</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.handleResetDecks}
+          >
+            <Text style={styles.buttonText}>resetDecks()</Text>
+          </TouchableOpacity>
         </View>
-        <Text style={{ fontSize: 26, textAlign: 'center' }}>OUTPUT:</Text>
-        <Text style={styles.output}>{JSON.stringify(output)}</Text>
         <Text style={{ fontSize: 26, textAlign: 'center' }}>REDUX:</Text>
         <Text style={styles.output}>{JSON.stringify(decks)}</Text>
-      </View>
+        {output !== '' && (
+          <>
+            <Text style={{ fontSize: 26, textAlign: 'center' }}>OUTPUT:</Text>
+            <Text style={styles.output}>{JSON.stringify(output)}</Text>
+          </>
+        )}
+      </ScrollView>
     );
   }
 }
@@ -128,11 +153,9 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(state) {
-  console.log('state', state);
-
+function mapStateToProps(decks) {
   return {
-    decks: state,
+    decks,
   };
 }
 
