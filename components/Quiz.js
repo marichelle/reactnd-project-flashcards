@@ -47,7 +47,7 @@ class Quiz extends Component {
     }));
 
   render() {
-    const { deck } = this.props;
+    const { id, deck, navigation } = this.props;
     const { questions } = deck;
     const { index, score, view } = this.state;
     const numOfCards = questions.length;
@@ -71,7 +71,7 @@ class Quiz extends Component {
               style={{ margin: 10 }}
               onPress={this.handleChangeView}
             >
-              <Text style={styles.link}>View Answer</Text>
+              <Text style={styles.link}>Show Answer</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -89,7 +89,7 @@ class Quiz extends Component {
                 style={{ margin: 10 }}
                 onPress={this.handleChangeView}
               >
-                <Text style={styles.link}>View Question</Text>
+                <Text style={styles.link}>Show Question</Text>
               </TouchableOpacity>
             </View>
             <View>
@@ -114,20 +114,33 @@ class Quiz extends Component {
         )}
 
         {view === 'results' && (
-          <View style={styles.view}>
-            <Text style={[styles.label, { fontSize: 32 }]}>Quiz Results</Text>
-            <Text
-              style={[
-                styles.score,
-                result === 100 ? { color: success } : { color: danger },
-              ]}
-            >
-              {result}%
-            </Text>
-            <TouchableOpacity style={{ margin: 10 }} onPress={this.restartQuiz}>
-              <Text style={styles.link}>Restart Quiz</Text>
-            </TouchableOpacity>
-          </View>
+          <>
+            <View style={styles.view}>
+              <Text style={[styles.label, { fontSize: 32 }]}>Quiz Results</Text>
+              <Text
+                style={[
+                  styles.score,
+                  result === 100 ? { color: success } : { color: danger },
+                ]}
+              >
+                {result}%
+              </Text>
+            </View>
+            <View>
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: primary }]}
+                onPress={() => navigation.navigate('Deck', { id })}
+              >
+                <Text style={styles.buttonText}>Back to Deck</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: primary }]}
+                onPress={this.restartQuiz}
+              >
+                <Text style={styles.buttonText}>Restart Quiz</Text>
+              </TouchableOpacity>
+            </View>
+          </>
         )}
       </View>
     );

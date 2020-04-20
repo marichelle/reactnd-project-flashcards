@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 
@@ -20,13 +20,16 @@ export default class App extends Component {
   }
 
   render() {
+    const statusBarHeight =
+      Platform.OS === 'ios' ? Constants.statusBarHeight : 0;
+
     return (
       <Provider store={store}>
         <View style={styles.container}>
           <View
             style={{
               backgroundColor: primary,
-              height: Constants.statusBarHeight,
+              height: statusBarHeight,
             }}
           >
             <StatusBar

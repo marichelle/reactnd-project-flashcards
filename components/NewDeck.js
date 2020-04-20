@@ -64,7 +64,7 @@ class NewDeck extends Component {
           value={title}
         />
         <TouchableOpacity style={styles.button} onPress={this.handleOnPress}>
-          <Text style={styles.buttonText}>Submit</Text>
+          <Text style={styles.buttonText}>Create Deck</Text>
         </TouchableOpacity>
       </View>
     );
