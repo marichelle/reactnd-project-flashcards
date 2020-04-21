@@ -10,12 +10,14 @@ import thunk from 'redux-thunk';
 import AppNav from './components/AppNav';
 import { handleGetDecks } from './actions';
 import reducer from './reducers';
+import { setLocalNotification } from './utils/helpers';
 import { primary } from './utils/theme';
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
 
 export default class App extends Component {
   componentDidMount() {
+    setLocalNotification();
     store.dispatch(handleGetDecks());
   }
 

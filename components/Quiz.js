@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers';
+
 import {
   primary,
   secondary,
@@ -21,6 +23,11 @@ class Quiz extends Component {
     score: 0,
     view: 'question',
   };
+
+  componentDidMount() {
+    // clear and reset study reminder notification
+    clearLocalNotification().then(setLocalNotification);
+  }
 
   handleAnswer = (correct, numOfCards) => {
     this.setState((currState) => {

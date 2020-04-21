@@ -19,7 +19,7 @@ export const danger = lightCoral;
 export const link = azure;
 export const muted = cultured;
 
-// other styles
+// other global styles
 export const borderRadius = 5;
 export const buttonFontSize = 16;
 export const buttonFontWeight = 'bold';
