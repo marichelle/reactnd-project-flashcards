@@ -22,7 +22,7 @@ function createNotification() {
 
 export function clearLocalNotification() {
   return AsyncStorage.removeItem(NOTIFICATION_KEY).then(
-    Notifications.cancelScheduledNotificationAsync
+    Notifications.cancelAllScheduledNotificationsAsync
   );
 }
 
@@ -33,7 +33,7 @@ export function setLocalNotification() {
       if (data === null) {
         Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
           if (status === 'granted') {
-            Notifications.cancelScheduledNotificationAsync();
+            Notifications.cancelAllScheduledNotificationsAsync();
 
             let tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
