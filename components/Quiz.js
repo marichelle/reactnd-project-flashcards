@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import {
   primary,
-  secondary,
   tertiary,
   success,
   danger,
@@ -116,11 +115,25 @@ class Quiz extends Component {
         {view === 'results' && (
           <>
             <View style={styles.view}>
-              <Text style={[styles.label, { fontSize: 32 }]}>Quiz Results</Text>
+              <Text style={[styles.label, { fontSize: 32 }]}>
+                Quiz Complete!
+              </Text>
               <Text
                 style={[
                   styles.score,
-                  result === 100 ? { color: success } : { color: danger },
+                  result > 50 ? { color: success } : { color: danger },
+                ]}
+              >
+                {score} / {numOfCards}
+              </Text>
+              <Text style={{ color: 'gray', fontSize: 20 }}>CORRECT</Text>
+            </View>
+            <View style={styles.view}>
+              <Text style={[styles.label, { fontSize: 32 }]}>Quiz Result</Text>
+              <Text
+                style={[
+                  styles.score,
+                  result > 50 ? { color: success } : { color: danger },
                 ]}
               >
                 {result}%

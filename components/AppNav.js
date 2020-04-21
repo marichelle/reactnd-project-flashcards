@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
-import { NavigationContainer, StyleSheet } from '@react-navigation/native';
+import { Platform } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import DeckDetail from './DeckDetail';
 import DeckList from './DeckList';
 import NewCard from './NewCard';
 import NewDeck from './NewDeck';
 import Quiz from './Quiz';
-import { primary, tertiary } from '../utils/theme';
+import { primary, tertiary, link } from '../utils/theme';
 
 const StackNav = createStackNavigator();
-const TabNav = createBottomTabNavigator();
+const TabNav =
+  Platform.OS === 'ios'
+    ? createBottomTabNavigator()
+    : createMaterialBottomTabNavigator();
 
 const DecksTab = () => (
   <StackNav.Navigator>
@@ -39,16 +46,79 @@ const DecksTab = () => (
   </StackNav.Navigator>
 );
 
+const AndroidTabs = () => (
+  <NavigationContainer>
+    <TabNav.Navigator
+      initialRouteName="Decks"
+      activeColor={link}
+      barStyle={{ backgroundColor: 'white' }}
+    >
+      <TabNav.Screen
+        name="Decks"
+        component={DecksTab}
+        options={{
+          tabBarLabel: 'Decks',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="cards-outline"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
+      <TabNav.Screen
+        name="New Deck"
+        component={NewDeck}
+        options={{
+          tabBarLabel: 'New Deck',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="plus" color={color} size={26} />
+          ),
+        }}
+      />
+    </TabNav.Navigator>
+  </NavigationContainer>
+);
+
+const IOSTabs = () => (
+  <NavigationContainer>
+    <TabNav.Navigator>
+      <TabNav.Screen
+        name="Decks"
+        component={DecksTab}
+        options={{
+          tabBarLabel: 'Decks',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="cards-outline"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
+      <TabNav.Screen
+        name="New Deck"
+        component={NewDeck}
+        options={{
+          tabBarLabel: 'New Deck',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="plus" color={color} size={26} />
+          ),
+        }}
+      />
+    </TabNav.Navigator>
+  </NavigationContainer>
+);
+
 class AppNav extends Component {
   render() {
-    return (
-      <NavigationContainer>
-        <TabNav.Navigator>
-          <TabNav.Screen name="Decks" component={DecksTab} />
-          <TabNav.Screen name="New Deck" component={NewDeck} />
-        </TabNav.Navigator>
-      </NavigationContainer>
-    );
+    if (Platform.OS === 'ios') {
+      return <IOSTabs />;
+    } else {
+      return <AndroidTabs />;
+    }
   }
 }
 
