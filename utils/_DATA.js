@@ -36,6 +36,10 @@ export const decks = {
       },
     ],
   },
+  Redux: {
+    title: 'Redux',
+    questions: [],
+  },
   Architecture: {
     title: 'Architecture',
     questions: [

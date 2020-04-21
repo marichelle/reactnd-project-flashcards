@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import { handleDeleteDeck } from '../actions';
 import {
   primary,
-  secondary,
   tertiary,
   borderRadius,
   buttonFontSize,
   buttonFontWeight,
+  danger,
 } from '../utils/theme';
 
 class DeckDetail extends Component {
@@ -69,7 +69,7 @@ class DeckDetail extends Component {
             style={{ margin: 10 }}
             onPress={this.handleDeleteDeck}
           >
-            <Text style={{ color: secondary }}>Delete Deck</Text>
+            <Text style={styles.link}>Delete Deck</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -111,6 +111,10 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: buttonFontSize,
     fontWeight: buttonFontWeight,
+  },
+  link: {
+    color: danger,
+    fontWeight: 'bold',
   },
 });
 

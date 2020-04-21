@@ -40,13 +40,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: primary,
-    borderColor: tertiary,
     borderRadius: borderRadius,
-    borderWidth: 1,
     height: 140,
     marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+
+    elevation: 12,
   },
   itemTitle: {
     color: tertiary,

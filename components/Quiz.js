@@ -12,6 +12,7 @@ import {
   borderRadius,
   buttonFontSize,
   buttonFontWeight,
+  secondary,
 } from '../utils/theme';
 
 class Quiz extends Component {
@@ -49,6 +50,7 @@ class Quiz extends Component {
     const { id, deck, navigation } = this.props;
     const { questions } = deck;
     const { index, score, view } = this.state;
+    const currCard = index + 1;
     const numOfCards = questions.length;
     let result = 0;
 
@@ -61,10 +63,10 @@ class Quiz extends Component {
         {view === 'question' && (
           <View style={styles.view}>
             <Text>
-              {index + 1} of {numOfCards}
+              {currCard} of {numOfCards}
             </Text>
-            <Text style={[styles.label, { fontSize: 42 }]}>
-              {questions[index].question}
+            <Text style={[styles.label, { fontSize: 36 }]}>
+              Q. {questions[index].question}
             </Text>
             <TouchableOpacity
               style={{ margin: 10 }}
@@ -79,7 +81,7 @@ class Quiz extends Component {
           <>
             <View style={styles.view}>
               <Text>
-                {index + 1} of {numOfCards}
+                {currCard} of {numOfCards}
               </Text>
               <Text style={[styles.label, { fontSize: 32 }]}>
                 {questions[index].answer}
@@ -165,16 +167,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    padding: 32,
+    padding: 25,
   },
   view: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   label: {
-    color: primary,
+    color: secondary,
     textAlign: 'center',
-    margin: 10,
   },
   link: {
     color: link,
