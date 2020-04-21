@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: primary,
-    fontSize: 46,
+    fontSize: 22,
     textAlign: 'center',
   },
   input: {

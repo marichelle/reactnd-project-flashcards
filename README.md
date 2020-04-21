@@ -26,4 +26,5 @@ This will launch Expo Developer Tools in your browser where you can do one of th
 This project has been tested on the following devices:
 
 - iPhone 11 Pro Max (13.4.1)
+- Galaxy Nexus (API 29)
 - Pixel XL (API 29)

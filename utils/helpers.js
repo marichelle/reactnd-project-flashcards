@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Platform } from 'react-native';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 
@@ -6,6 +6,21 @@ import { danger } from './theme';
 
 const CHANNEL_ID = 'daily-notifications';
 const NOTIFICATION_KEY = 'UdaciCards:notifications';
+
+const rescheduleNotification = () => {
+  Notifications.cancelAllScheduledNotificationsAsync();
+
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(20);
+  tomorrow.setMinutes(0);
+
+  Notifications.scheduleLocalNotificationAsync(createNotification(), {
+    time: tomorrow,
+  });
+
+  AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
+};
 
 export function clearLocalNotification() {
   return AsyncStorage.removeItem(NOTIFICATION_KEY).then(
@@ -44,28 +59,18 @@ export function setLocalNotification() {
       if (data === null) {
         Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
           if (status === 'granted') {
-            Notifications.createChannelAndroidAsync(CHANNEL_ID, createChannel())
-              .then(() => {
-                Notifications.cancelAllScheduledNotificationsAsync();
-
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(20);
-                tomorrow.setMinutes(0);
-
-                Notifications.scheduleLocalNotificationAsync(
-                  createNotification(),
-                  {
-                    time: tomorrow,
-                    repeat: 'day',
-                  }
-                );
-
-                AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
-              })
-              .catch((err) => {
-                console.log('err', err);
-              });
+            if (Platform.OS === 'android') {
+              Notifications.createChannelAndroidAsync(
+                CHANNEL_ID,
+                createChannel()
+              )
+                .then(() => rescheduleNotification)
+                .catch((err) => {
+                  console.log('err', err);
+                });
+            } else {
+              rescheduleNotification();
+            }
           }
         });
       }
