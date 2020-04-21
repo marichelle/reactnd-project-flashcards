@@ -14,7 +14,6 @@ import {
   borderRadius,
   primary,
   tertiary,
-  muted,
   buttonFontSize,
   buttonFontWeight,
 } from '../utils/theme';

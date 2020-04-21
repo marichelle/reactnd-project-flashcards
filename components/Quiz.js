@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import {
   primary,
+  secondary,
   tertiary,
   success,
   danger,
@@ -12,7 +13,6 @@ import {
   borderRadius,
   buttonFontSize,
   buttonFontWeight,
-  secondary,
 } from '../utils/theme';
 
 class Quiz extends Component {

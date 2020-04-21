@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 
 import { handleDeleteDeck } from '../actions';
 import {
+  danger,
   primary,
   tertiary,
   borderRadius,
   buttonFontSize,
   buttonFontWeight,
-  danger,
 } from '../utils/theme';
 
 class DeckDetail extends Component {
